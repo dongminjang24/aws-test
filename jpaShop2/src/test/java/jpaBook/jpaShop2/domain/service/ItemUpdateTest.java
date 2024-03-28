@@ -13,9 +13,10 @@ public class ItemUpdateTest {
     EntityManager entityManager;
     @Test
     public void updateTest() throws Exception {
-        Book book = entityManager.find(Book.class, 1L);
 
-        book.setName("asdfdsf");
+//        Book book = entityManager.find(Book.class, 1L);
+//
+//        book.setName("asdfdsf");
 
         //변경감지 == dirty checking
 
