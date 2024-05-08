@@ -5,11 +5,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jpaBook.jpaShop2.domain.Member;
 import jpaBook.jpaShop2.domain.service.MemberService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,54 @@ public class MemberApiController {
         member.setName(request.getName());
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
+    }
+
+    @PutMapping("/api/v2/members/{id}")
+    public UpdateMemberResponse editMemberV2(@RequestBody @Valid UpdateMemberRequest request,
+                                             @PathVariable Long id) {
+        Member member = memberService.findOne(id);
+        member.setName(request.name);
+        UpdateMemberResponse updateMemberResponse = new UpdateMemberResponse(member.getId(), member.getName());
+        return updateMemberResponse;
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result getMembers() {
+        List<Member> members = memberService.findMembers();
+        Stream<GetMembers> getMembersStream = members.stream().map(member -> new GetMembers(member.getName()));
+        List<GetMembers> list = getMembersStream.toList();
+        Result result = new Result(list.size(),list);
+        return result;
+    }
+
+    @Data
+    static class UpdateMemberRequest {
+        @NotEmpty
+        private String name;
+    }
+
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class GetMembers {
+        @NotEmpty
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class UpdateMemberResponse {
+
+
+        private Long id;
+        private String name;
     }
 
     @Data
