@@ -1,5 +1,6 @@
 package jpaBook.jpaShop2.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Delivery {
     private Long id;
 
 
+    @JsonBackReference
     @OneToOne(mappedBy = "delivery",fetch = FetchType.LAZY)
     private Order order;
 

@@ -9,7 +9,6 @@ import jpaBook.jpaShop2.domain.item.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.parser.Entity;
 
 @Component
 @RequiredArgsConstructor

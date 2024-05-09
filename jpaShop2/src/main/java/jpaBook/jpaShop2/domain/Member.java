@@ -1,5 +1,6 @@
 package jpaBook.jpaShop2.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Member {
     @Embedded
     private Address address;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
