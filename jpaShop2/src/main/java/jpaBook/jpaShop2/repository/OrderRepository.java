@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import jpaBook.jpaShop2.domain.Order;
+import jpaBook.jpaShop2.domain.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -100,4 +101,21 @@ public class OrderRepository {
         query.where(criteriaBuilder.and(criteria.toArray(new Predicate[criteria.size()])));
         return em.createQuery(query).setMaxResults(1000).getResultList();
     }
+
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                // jpa만 있는 fetch문법
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
+
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        return em.createQuery("select new jpaBook.jpaShop2.domain.OrderSimpleQueryDto(o.id,m.name ,o.orderDate,o.status,d.address) from Order o"
+                + " join o.member m" +
+                " join o.delivery d", OrderSimpleQueryDto.class
+        ).getResultList();
+    }
+
 }

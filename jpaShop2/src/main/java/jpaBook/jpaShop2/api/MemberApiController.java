@@ -8,6 +8,7 @@ import jpaBook.jpaShop2.domain.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
 public class MemberApiController {
 
     private final MemberService memberService;
+
 
     // 엔티티를 직접 넣는 것은 안된다!!!
     @PostMapping("/api/v1/members")
